@@ -6,6 +6,7 @@ import { Task, TeamMember, Status, Priority } from '@/lib/types'
 import { BoardView } from '@/components/board-view'
 import { ListView } from '@/components/list-view'
 import { CreateTaskDialog } from '@/components/create-task-dialog'
+import { CommandBar } from '@/components/command-bar'
 import { useTheme } from '@/components/theme-provider'
 import { Button } from '@/components/ui/button'
 import {
@@ -191,6 +192,10 @@ export default function Home() {
 
           <div className="flex-1" />
 
+          <span className="text-xs text-muted-foreground">
+            Press <kbd className="px-1.5 py-0.5 bg-muted rounded text-xs">⌘J</kbd> for commands
+          </span>
+
           <Button
             variant="ghost"
             size="sm"
@@ -252,6 +257,9 @@ export default function Home() {
         onCreateTask={handleCreateTask}
         defaultStatus={defaultStatus}
       />
+
+      {/* Command bar */}
+      <CommandBar onCommandExecuted={fetchData} />
     </div>
   )
 }
