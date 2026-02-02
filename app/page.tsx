@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { Task, TeamMember, Status, Priority } from '@/lib/types'
 import { BoardView } from '@/components/board-view'
 import { ListView } from '@/components/list-view'
@@ -26,6 +27,7 @@ import { cn } from '@/lib/utils'
 type ViewMode = 'board' | 'list'
 
 export default function Home() {
+  const router = useRouter()
   const [tasks, setTasks] = useState<Task[]>([])
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
   const [viewMode, setViewMode] = useState<ViewMode>('list')
@@ -33,6 +35,10 @@ export default function Home() {
   const [showCreateDialog, setShowCreateDialog] = useState(false)
   const [defaultStatus, setDefaultStatus] = useState<Status>('todo')
   const { theme, toggleTheme } = useTheme()
+
+  const handleTaskClick = (task: Task) => {
+    router.push(`/task/${task.task_id}`)
+  }
 
   // Fetch data
   const fetchData = useCallback(async () => {
@@ -221,6 +227,7 @@ export default function Home() {
               onStatusChange={handleStatusChange}
               onPriorityChange={handlePriorityChange}
               onAssigneeChange={handleAssigneeChange}
+              onTaskClick={handleTaskClick}
               onCreateTask={openCreateDialog}
             />
           ) : (
@@ -230,6 +237,7 @@ export default function Home() {
               onStatusChange={handleStatusChange}
               onPriorityChange={handlePriorityChange}
               onAssigneeChange={handleAssigneeChange}
+              onTaskClick={handleTaskClick}
               onCreateTask={openCreateDialog}
             />
           )}
